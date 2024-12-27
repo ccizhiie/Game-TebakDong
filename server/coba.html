@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socket.io Test</title>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+  </head>
+  <body>
+    <h1>Socket.io Test</h1>
+    <div id="status"></div>
+
+    <script>
+      // Membuat koneksi ke server Socket.io
+      const socket = io("http://localhost:3001");
+
+      // Menerima pesan dari server
+      socket.on("socket id", (message) => {
+        document.getElementById("status").innerText = message;
+      });
+
+      // Menangani koneksi
+      socket.on("connect", () => {
+        console.log("Connected to the server!");
+      });
+      // Klien - Mengirim data
+      const userData = { namePlayer: "user1", img: "room1" }; // pastikan 'namePlayer' dan 'img' ada
+      const roomData = {maxPlayer:222, time:22, hint:22 }; // pastikan 'namePlayer' dan 'img' ada
+      const roomCode = "room1";
+
+      socket.emit("create room", {userData, roomCode });
+      socket.emit("setting room", {roomData, roomCode });
+
+      socket.on("create room", (m) => {
+        console.log("ppp:" + m);
+      });
+
+      // Menangani disconnect
+      socket.on("disconnect", () => {
+        console.log("Disconnected from the server");
+      });
+    </script>
+  </body>
+</html>
